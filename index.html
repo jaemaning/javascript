@@ -13,10 +13,19 @@
 
 <body>
 
-    <div class="black-bg modal hide">
+    <div class="black-bg show-hide">
         <div class="white-bg">
             <h4>로그인하세요</h4>
-            <button class="btn btn-danger" id="close">닫기</button>
+            <form id="loginForm" action="success.html">
+                <div class="my-3">
+                    <input type="text" class="form-control" id="email">
+                </div>
+                <div class="my-3">
+                    <input type="password" class="form-control" id="password">
+                </div>
+                <button type="submit" class="btn btn-primary" onclick="formCheck(event)">전송</button>
+                <button type="button" class="btn btn-danger" onclick="logincloseBtn()">닫기</button>
+            </form>
         </div>
     </div>
 
@@ -29,13 +38,7 @@
         </div>
     </nav>
 
-    <br /><br />
-
-    <button class="loginBtn" onclick="loginBtn()">로그인</button>
-
-
-
-    <ul class="list-group" id="list-group">
+    <ul class="list-group">
         <li class="list-group-item">An item</li>
         <li class="list-group-item">A second item</li>
         <li class="list-group-item">A third item</li>
@@ -43,49 +46,43 @@
         <li class="list-group-item">And a fifth one</li>
     </ul>
 
-    <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
-
-    <div id="hello">hello world</div>
-    <div class="alert-box" id="alert">알림창팝업</div>
-    <div class="alert-box2" id="alert2">
-        <h4 id="alertContents"></h4>
-        <button id="close">닫기</button>
+    <div class="main-bg">
+        <h4 class="main-content">hello jaem</h4>
+        <button class="loginBtn" onclick="loginBtn()">로그인</button>
     </div>
-    <button onclick="alertOnoffbtn()">버튼</button>
-    <button onclick="alertId('아이디를 입력하세요')">버튼1</button>
-    <button onclick="alertId('비밀번호를 입력하세요')">버튼2</button>
-    <input class="SearchInput__input" type="text" id="input-box" placeholder="프로그램 언어를 입력하세요." onchange="onChange('e')">
+
+
 
 
     <script>
 
-        document.getElementById('close').addEventListener('click', function () {
-            document.getElementById('alert2').style.display = 'none'
-        })
+
+        function formCheck(e) {
+            let loginFormid = document.getElementById('email').value
+            let loginFormpassword = document.getElementById('password').value
+
+            if (loginFormid == '') {
+                alert('아이디를 입력하세요')
+                e.preventDefault();
+            } else if (loginFormpassword == '') {
+                alert('비밀번호를 입력하세요')
+                e.preventDefault();
+            } else if (loginFormpassword.length < 6) {
+                alert('비밀번호는 6자리 이상입니다.')
+                e.preventDefault();
+            } else {
+                document.getElementById('loginForm').submit()
+            }
+        }
 
         function loginBtn() {
-            $('.hide').css('display', 'block')
+            $('.show-hide').css('visibility', 'visible')
+            $('.show-hide').css('opacity', '1')
         }
 
-        function alertOnoffbtn() {
-            if (document.getElementById('alert').style.display === 'none') {
-                document.getElementById('alert').style.display = 'block'
-            } else {
-                document.getElementById('alert').style.display = 'none'
-            }
-        }
-
-        function alertId(e) {
-            document.getElementById('alertContents').innerHTML = e
-            document.getElementById('alert2').style.display = 'block'
-        }
-
-        function navbarBtn() {
-            if (document.getElementById('list-group').style.display === 'block') {
-                document.getElementById('list-group').style.display = 'none'
-            } else {
-                document.getElementById('list-group').style.display = 'block'
-            }
+        function logincloseBtn() {
+            $('.show-hide').css('visibility', 'hidden')
+            $('.show-hide').css('opacity', '0')
         }
 
         function navBtn() {
@@ -93,12 +90,6 @@
         }
 
     </script>
-
-
-
-
-
-
 
 
 

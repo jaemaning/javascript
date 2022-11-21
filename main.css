@@ -1,27 +1,33 @@
-.alert-box {
-    padding: 20px;
-    background-color: skyblue;
-    border-radius: 1.2rem;
-    display: none;
+.main-bg {
+    background-color: lightgreen;
+    height: 200px;
 }
 
-.alert-box2 {
-    padding: 20px;
-    background-color: skyblue;
-    border-radius: 1.2rem;
-    display: none;
+.loginBtn {
+    padding: 5px;
+    border-radius: 5px;
+    background-color: brown;
+    color: white;
+    margin-left: 20px;
+}
+
+.main-content {
+    padding-left: 20px;
+    padding-top: 20px;
 }
 
 .list-group {
     display: none;
 }
 
-.show {
-    display: block;
+.show-hide {
+    visibility: hidden;
+    opacity: 0;
+    transition: all 0.5s;
 }
 
-.hide {
-    display: none;
+.show {
+    display: block;
 }
 
 .black-bg {
