@@ -31,7 +31,8 @@
 
     <nav class="navbar navbar-light bg-light">
         <div class="container-fluid">
-            <span class="navbar-brand">Navbar</span>
+            <span class="navbar-brand">Jaem</span>
+            <span class="badge bg-dark ms-auto mx-3" id="darklightMode">Dark 🔄</span>
             <button class="navbar-toggler" type="button" onclick="navBtn()">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -55,7 +56,7 @@
 
 
     <script>
-
+        let darklight = 'light';
 
         function formCheck(e) {
             let loginFormid = document.getElementById('email').value
@@ -88,6 +89,18 @@
         function navBtn() {
             $('.list-group')[0].classList.toggle('show')
         }
+
+        document.querySelector('#darklightMode').addEventListener('click', function () {
+            if (darklight == 'light') {
+                $('#darklightMode').html('Light 🔄')
+                darklight = 'dark'
+            } else {
+                $('#darklightMode').html('Dark 🔄')
+                darklight = 'light'
+            }
+        })
+
+
 
     </script>
 
