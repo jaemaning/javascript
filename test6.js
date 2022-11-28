@@ -7,75 +7,32 @@ for (dungeon of dungeons) {
     indungeons.push(dungeon[0])
 }
 let mindungeons = Math.min(...indungeons);
-// let storage = new Array(dungeons.length).fill('false')
+let storage = new Array(dungeons.length).fill(true)
+let visited = new Array(dungeons.length).fill(false)
 let cnt = 0
 let result = []
 
+function DFS(k, cnt) {
+    result.push(cnt)
 
-for (i of dungeons) {
-    if (i[0] > k) {
-        result.push(0)
-    } else {
-        cnt++
-        k = k - i[1]
-        dungeonandfighter(k, dungeons, i)
+    for (let i = 0; i < dungeons.length; i++) {
+        if (visited[i] == false && k >= dungeons[i][0]) {
+            visited[i] = true;
+            console.log(k)
+            cnt++
+            DFS(k - dungeons[i][1], cnt);
+            visited[i] = false;
+            cnt--
+        }
     }
 }
 
+DFS(k, 0)
+console.log(result)
 
-function dungeonandfighter(k, dungeons, i) {
-    for () {
-        dungeonandfighter()
-        if (k <= mindungeons) {
-            result.push(cnt);
-            cnt = 0
-            return;
-        }
-    }
-
-
-
-
-
-
-
-
-// for (let i in dungeons) {
-//     if (dungeons[i][0] <= k && storage[i] == 0) {
-//         cnt++
-//         k = k - dungeons[i][1]
-//         storage[i] = 1
-//         dungeonandfighter(k, dungeons, storage)
-//         console.log(cnt)
-//         //console.log(1)
-//     } else if (dungeons[i][0] > k && storage[i] == 0) {
-//         storage[i] = 1
-//         dungeonandfighter(k, dungeons, storage)
-//         //console.log(2)
-//     } else if (storage[i] == 1) {
-//         i++
-//         //console.log(3)
-//     }
-//     if (storage == new Array(dungeons.length.fill(1))) {
-//         result.push(cnt);
-//     }
-// }
-
-// return result
-// }
-// console.log(dungeonandfighter(k, dungeons, storage))
 
 // DFS = 한놈만팬다 끝까지 파고들고 반복(재귀함수 사용)
 // BFS = 연결된 다음놈을 찾는다 (queue, linkedlist 사용)
-
-
-
-
-
-
-
-
-
 
 
 //순열로 1개 뽑기 가능하면? return 1

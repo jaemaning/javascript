@@ -1,25 +1,38 @@
-// 순열
+// 연습장
 let dun = [1, 2, 3, 4, 5]
-let result = 0
+let result = []
+let visited = new Array(dun.length).fill(false)
 
-permutation(dun.length)
+//permutation(dun.length)
 
 function permutation(i) {
-    if (i < 1) {
-        return false
-    } else {
-        for (let j = 1; j < i; j++) {
-            result++
+    for (let i = 0; i < 10; i++) {
+        if (visited[i]) {
+            return
+        } else {
+            visited[i] = true
+            result.push(i)
+            permutation(i)
         }
-        for (let j = 1; j < i; j++) {
-            permutation(i - 1)
-        }
+    }
+}
 
+function DFS(k, dungeons, visited) {
+    for () {
+        if (visited[i]) {
+            return;
+        } else {
+            visited[i] = true;
+            DFS()
+            visited[i] = false;
+        }
     }
 
 }
 
-console.log(result)
+//console.log(visited)
+
+permutation(0)
 
 // 4가 4번들어가고
 
