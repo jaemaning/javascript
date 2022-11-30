@@ -1,39 +1,40 @@
 // 연습장
-let dun = [1, 2, 3, 4, 5]
+let maps = [[1, 0, 1, 1, 1], [1, 0, 1, 0, 1], [1, 0, 1, 1, 1], [1, 1, 1, 0, 1], [0, 0, 0, 0, 1]]
+let visited = new Array(5)
+for (let i = 0; i < 5; i++) {
+    visited[i] = new Array(5).fill(false)
+}
+let cnt = 1
 let result = []
-let visited = new Array(dun.length).fill(false)
+let n = maps[0].length - 1
+let m = maps.length - 1
+console.log(n, m)
+let dx = [-1, 1, 0, 0]   // 상하좌우
+let dy = [0, 0, -1, 1]   // 상하좌우
 
-//permutation(dun.length)
+function BFS(x, y) {
+    let queue = [[x, y]]
+    while (queue) {
+        let xy = queue.shift()
+        if (xy == undefined) {
+            return -1
+        }
+        x = xy[0]
+        y = xy[1]
 
-function permutation(i) {
-    for (let i = 0; i < 10; i++) {
-        if (visited[i]) {
-            return
-        } else {
-            visited[i] = true
-            result.push(i)
-            permutation(i)
+        if (x == n && y == m) {
+            return maps[n][m]
+        }
+        for (let i = 0; i < 4; i++) {
+            nx = x + dx[i]
+            ny = y + dy[i]
+            if (0 <= nx <= n && 0 <= ny <= m) {
+                if (maps[nx][ny] == 1) {
+                    maps[nx][ny] = maps[x][y] + 1
+                    queue.push([nx, ny])
+                }
+            }
         }
     }
 }
-
-function DFS(k, dungeons, visited) {
-    for () {
-        if (visited[i]) {
-            return;
-        } else {
-            visited[i] = true;
-            DFS()
-            visited[i] = false;
-        }
-    }
-
-}
-
-//console.log(visited)
-
-permutation(0)
-
-// 4가 4번들어가고
-
-// 3이 3번 들어가고
+console.log(BFS(0, 0))
