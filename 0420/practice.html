@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <ul>
+
+  </ul>
+
+  <script>
+    // prompt  로 과일 3개를 입력 받고 리스트 태그로 body에 추가 해보기
+    const ul_ = document.querySelector("ul")
+
+    for (let i=0;i<3;i++) {
+      const new_fruit = window.prompt("과일을 입력하세요")
+      const new_li = document.createElement("li")
+      new_li.innerText = new_fruit
+      ul_.appendChild(new_li)
+    }
+
+    // 방법 2
+    const parent = document.querySelector('body')
+    const new_fruits = window.prompt("과일 3개를 띄어쓰기로 구분하여 입력")
+    // python 과 다름
+    const fruits_list = new_fruits.split(" ")
+
+    fruits_list.forEach((data)=>{
+      const new_li = document.createElement("li")
+      new_li.innerText = data
+      parent.appendChild(new_li)
+    })
+
+  </script>
+</body>
+</html>
