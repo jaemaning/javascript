@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <button id="btn">클릭</button>
+  <p id="container"></p>
+
+
+  <script>
+    // p태그 안의 텍스트가 버튼을 클릭할 때마다 1씩 증가
+    const pTag = document.querySelector('p')
+    const btn = document.querySelector('#btn')
+    let count = 0
+    pTag.innerText = count
+    btn.addEventListener('click', function(){
+      count ++
+      console.log(count)
+      pTag.innerText = count
+    })
+  </script>
+</body>
+</html>

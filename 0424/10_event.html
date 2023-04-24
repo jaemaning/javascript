@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    div {
+      padding: 20px;
+      background-color: #eee;
+    }
+
+    p {
+      padding: 20px;
+      background-color: aquamarine;
+      display: block;
+    }
+
+    span {
+      padding: 20px;
+      background-color: grey;
+      display: block;
+    }
+
+  </style>
+</head>
+<body>
+  <div>
+    DIV
+    <p>
+      P
+      <span>
+        SPAN
+      </span>
+    </p>
+  </div>
+
+  <script>
+    // div
+    const d = document.querySelector("div")
+
+    // 버블링 이용
+    d.addEventListener("click", function(e){
+      console.log(e.target, "여기는 div태그 이벤트 함수")
+      // div 의 자식 중 span 태그에서 발생한 이벤트만 따로 처리하고 싶을때
+      // console.log(e.target.tagName)
+      if (e.target.tagName == "SPAN") {
+        console.log("span이야")
+      } else if (e.target.tagName == "P") {
+        console.log("p 태그야")
+      } else {
+        console.log("div 태그야")
+      }
+    })
+
+    // p
+    // const p = document.querySelector("p")
+    // p.addEventListener("click", function(e){
+    //   console.log(e.target, "여기는 p태그 이벤트 함수")
+    //   e.stopPropagation()
+    // })
+
+    // // span
+    // const s = document.querySelector("span")
+    // s.addEventListener("click", function(e) {
+    //   console.log(e.target, "여기는 span태그 이벤트 함수")
+    //   // 상위 요소로 이벤트 전달 중단
+    //   e.stopPropagation()
+    //   // 상위 뿐만 아니라 이 이벤트 함수 말고 다른 이벤트 함수 xx
+    //   e.stopImmediatePropagation()
+    // })
+  </script>
+</body>
+</html>
