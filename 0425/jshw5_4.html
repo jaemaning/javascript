@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+
+    const hiElement = new Promise((resolve,reject) => {
+      return resolve("Hi")
+    })
+
+    const ssafyElement = new Promise((resolve, reject) => {
+      setTimeout(() => {
+        return resolve('SSAFY')
+      }, 3000);
+    })
+
+    const byeElement = new Promise((resolve, reject) => {
+      return resolve('Bye')
+    })
+
+    hiElement
+      .then((result) => {
+        console.log(result)
+        return ssafyElement
+      })
+      .then((result) => {
+        console.log(result)
+        return byeElement
+      })
+      .then((result) => {
+        console.log(result)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+
+  </script>
+</body>
+</html>
