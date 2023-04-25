@@ -1,0 +1,2 @@
+API key : "aeccfb530bfa0640ef97597c433aa45c"
+shared secret : "ab58a8fd7efe0ef74ef62251f8829003"
