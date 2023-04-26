@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>DETAIL</h2>
+  <h3>{{ article.pk }} 번째 글</h3>
+  <hr>
+  <p>제목 : {{ article.title }}</p>
+  <p>내용 : {{ article.content }}</p>
+  <p>작성시각 : {{ article.created_at }}</p>
+  <p>수정시각 : {{ article.updated_at }}</p>
+  <hr>
+  {% if user == article.user %}
+    <a href="{% url 'articles:update' article.pk %}">[UPDATE]</a>
+    <form action="{% url 'articles:delete' article.pk %}" method="POST">
+      {% csrf_token %}
+      <input type="submit" value="DELETE">
+    </form>
+  {% endif %}
+  <a href="{% url 'articles:index' %}">[back]</a>
+  <hr>
+  <h4>댓글 목록</h4>
+  <ul id="ul-tag">
+    {% for comment in comments %}
+      <li id="comment-list">
+        {{ comment.user }} - {{ comment.content }}
+        {% if user == comment.user %}
+          <form action="{% url 'articles:comments_delete' article.pk comment.pk %}" method="POST" class="d-inline" id="comment-delete">
+            {% csrf_token %}
+            <input type="submit" value="DELETE">
+          </form>
+          <button type="submit" data-comment-content="{{comment.content}}" data-article-id="{{article.id}}" data-comment-id="{{comment.id}}">수정</button>
+        {% endif %}
+      </li>
+    {% empty %}
+      <p id="no-content">댓글이 없어요..</p>
+    {% endfor %}
+  </ul>
+
+  <hr>
+  {% if request.user.is_authenticated %}
+    <form id="comment-form" data-article-id="{{article.pk}}">
+      {% csrf_token %}
+      {{ comment_form }}
+      <input type="submit">
+    </form>
+  {% else %}
+    <a href="{% url 'accounts:login' %}">[댓글을 작성하려면 로그인하세요.]</a>
+  {% endif %}
+{% endblock content %}
+
+{% block script %}
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+    const form = document.querySelector('#comment-form')
+    const input = document.querySelector('[name=content]')
+    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value
+    const commentList = document.querySelector('#comment-list')
+    const ulTag = document.querySelector('#ul-tag')
+    const noPTag = document.querySelector('#no-content')
+    
+    
+    form.addEventListener('submit', function (event) {
+      event.preventDefault()
+	    // 이곳에 코드를 작성하세요.
+      const articleId = event.target.dataset.articleId
+      const data = new FormData()
+      const content = input.value
+      data.append("content", content)
+      
+      axios({
+        method: "POST",
+        url: `/articles/${articleId}/comments/`,
+        headers: {'X-CSRFToken': csrftoken},
+        data: {
+          'content': content,
+        }
+      })
+      .then((response)=>{
+        const {article_id, comment_id} = response.data      
+        const liTag = document.createElement("li")
+        liTag.innerHTML =`
+        {{request.user.username}} - ${content}
+        <form action="/articles/${article_id}/comments/${comment_id}/delete/" method="POST" class="d-inline" id="comment-delete">
+          {% csrf_token %}
+          <input type="submit" value="DELETE">
+        </form>
+        <button type="submit" data-comment-id="{{comment.pk}}">수정</button>
+        `
+        ulTag.appendChild(liTag)
+        input.value = null
+        if (noPTag) {
+          noPTag.remove()
+        }
+        const allButtons = document.querySelectorAll('button')
+      })
+      .catch((error)=>{
+        console.log(error)
+      })
+      
+    })
+
+    const allButtons = document.querySelectorAll('button')
+    console.log(allButtons)
+
+    allButtons.forEach((button)=>{
+      button.addEventListener("click", function(e){
+        // const commentId = e.target.dataset.commentId // 굳이 필요 없을듯?
+        const targetLiTag = e.target.parentElement
+        targetLiTag.innerHTML = `<input type="text" id="updateInput" value=${e.target.dataset.commentContent}><button id="updateBtn">제출</button>`
+        const updateBtn = document.querySelector("#updateBtn")
+        const updateInput = document.querySelector("#updateInput")
+        const articleId = e.target.dataset.articleId
+        const commentId = e.target.dataset.commentId
+        content = updateInput.value
+
+        updateBtn.addEventListener("click", function(e){
+          axios({
+            method:"POST",
+            url:`articles/${articleId}/comments/${commentId}/update/`,
+            headers: {'X-CSRFToken': csrftoken},
+          })
+          .then((response)=>{
+            targetLiTag.innerHTML =`
+            {{request.user.username}} - ${content}
+            <form action="/articles/${article_id}/comments/${comment_id}/delete/" method="POST" class="d-inline" id="comment-delete">
+              {% csrf_token %}
+              <input type="submit" value="DELETE">
+            </form>
+            <button type="submit" data-comment-id="{{comment.pk}}">수정</button>
+            `
+          })
+          .catch((error)=>{
+            console.log(error)
+          })
+
+        })
+        
+      })
+    })
+
+  </script>
+{% endblock script %}
