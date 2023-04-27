@@ -86,6 +86,7 @@ def comments_create(request, pk):
     if request.user.is_authenticated:
         article = get_object_or_404(Article, pk=pk)
         # 두번째 방법 json 으로 폼에 넣기
+        print(request)
         json_data = json.loads(request.body)
         comment_form = CommentForm(json_data)
         if comment_form.is_valid():
@@ -102,20 +103,22 @@ def comments_create(request, pk):
     return redirect('accounts:login')
 
 @require_POST
-def comments_update(request, pk):
+def comments_update(request, article_pk, comment_pk):
     if request.user.is_authenticated:
-        article = get_object_or_404(Article, pk=pk)
+        article = get_object_or_404(Article, pk=article_pk)
+        comment = get_object_or_404(Comment, pk=comment_pk)
         # 두번째 방법 json 으로 폼에 넣기
         json_data = json.loads(request.body)
         comment_form = CommentForm(json_data, instance=comment)
+        print("성공적으로 요청 보냈다")
         if comment_form.is_valid():
             comment = comment_form.save(commit=False)
             comment.article = article
             comment.user = request.user
             comment.save()
         context = {
-            "article_id": article.pk,
-            "comment_id": comment.pk
+            "article_id": article_pk,
+            "comment_id": comment_pk
         }
         # return redirect('articles:detail', article.pk)
         return JsonResponse(context, status=200)

@@ -69,7 +69,7 @@
       
       axios({
         method: "POST",
-        url: `/articles/${articleId}/comments/`,
+        url: `http://127.0.0.1:8000/articles/${articleId}/comments/`,
         headers: {'X-CSRFToken': csrftoken},
         data: {
           'content': content,
@@ -84,7 +84,7 @@
           {% csrf_token %}
           <input type="submit" value="DELETE">
         </form>
-        <button type="submit" data-comment-id="{{comment.pk}}">수정</button>
+        <button type="submit" data-comment-id="${comment_id}">수정</button>
         `
         ulTag.appendChild(liTag)
         input.value = null
@@ -100,34 +100,43 @@
     })
 
     const allButtons = document.querySelectorAll('button')
-    console.log(allButtons)
 
     allButtons.forEach((button)=>{
-      button.addEventListener("click", function(e){
+      button.addEventListener("click", function(event){
         // const commentId = e.target.dataset.commentId // 굳이 필요 없을듯?
-        const targetLiTag = e.target.parentElement
-        targetLiTag.innerHTML = `<input type="text" id="updateInput" value=${e.target.dataset.commentContent}><button id="updateBtn">제출</button>`
+        const targetLiTag = event.target.parentElement
+        console.log(event.target.dataset.commentContent)
+        targetLiTag.innerHTML = `<input type="text" id="updateInput" value=${event.target.dataset.commentContent}><button id="updateBtn">제출</button>`
         const updateBtn = document.querySelector("#updateBtn")
         const updateInput = document.querySelector("#updateInput")
-        const articleId = e.target.dataset.articleId
-        const commentId = e.target.dataset.commentId
+        const articleId = event.target.dataset.articleId
+        const commentId = event.target.dataset.commentId
         content = updateInput.value
-
+        
         updateBtn.addEventListener("click", function(e){
+          console.log(e)
+          content = updateInput.value
+          console.log(articleId, commentId)
           axios({
             method:"POST",
-            url:`articles/${articleId}/comments/${commentId}/update/`,
+            url:`http://127.0.0.1:8000/articles/${articleId}/comments/${commentId}/update/`,
             headers: {'X-CSRFToken': csrftoken},
+            data:{
+              "content":content,
+            }
           })
           .then((response)=>{
+            console.log(response)
             targetLiTag.innerHTML =`
             {{request.user.username}} - ${content}
-            <form action="/articles/${article_id}/comments/${comment_id}/delete/" method="POST" class="d-inline" id="comment-delete">
+            <form action="/articles/${articleId}/comments/${commentId}/delete/" method="POST" class="d-inline" id="comment-delete">
               {% csrf_token %}
               <input type="submit" value="DELETE">
             </form>
-            <button type="submit" data-comment-id="{{comment.pk}}">수정</button>
             `
+            //<button type="submit" data-article-id="${articleId}" data-comment-id="${commentId}">수정</button>
+            // targetLiTag.innerHTML = `<input type="text" id="updateInput" value=${e.target.dataset.commentContent}><button id="updateBtn">제출</button>`
+            targetLiTag.append(event.target)
           })
           .catch((error)=>{
             console.log(error)
