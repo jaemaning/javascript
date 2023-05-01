@@ -9,7 +9,7 @@
 <body>
   <div id="app">
     <h1>Todo List</h1>
-    <input type="text" v-model="inputData">
+    <input type="text" v-model="inputData" @keyup.enter="todoAdd">
     <button @click="todoAdd">+</button>
     <ul>
       <li v-for="(todo, idx) in todoArray" :key="idx">

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      font-family: 'Noto Sans KR', sans-serif;
+      color: rgb(38, 38, 38);
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 500px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      color: #50B8E7;
+    }
+
+    .buttonArea {
+      margin: 0 auto;
+      width: 80%;
+    }
+
+    .buttonRow {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      height: 80px;
+    }
+
+    .btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 45%;
+      border: 1px solid #50B8E7;
+      cursor: pointer;
+    }
+
+    .result {
+      margin-top: 10px;
+      outline: none;
+      background: none;
+      border: 1px solid #50B8E7;
+      width: 100px;
+      height: 50px;
+      cursor: pointer;
+      font-size: large;
+    }
+
+    .result:hover {
+      background-color: #B9E2F5;
+    }
+
+    .type {
+      font-size: x-large;
+      font-weight: bold;
+    }
+
+    .selected {
+      background-color: #B9E2F5;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <div class="container">
+      <h1>MBTI 검사기</h1>
+      <section class="buttonArea">
+        <div class="buttonRow">
+          <div class="btn" :class="{selected: mbtiChoices[0]==='E'}" @click="checkBtn(0,'E')">
+            <span class="type">E</span>
+            <span>외향형</span>
+          </div>
+          <div class="btn" :class="{selected: mbtiChoices[0]==='I'}" @click="checkBtn(0,'I')">
+            <span class="type">I</span>
+            <span>내향형</span>
+          </div>
+        </div>
+        <div class="buttonRow">
+          <div class="btn" :class="{selected: mbtiChoices[1]==='S'}" @click="checkBtn(1,'S')">
+            <span class="type">S</span>
+            <span>감각형</span>
+          </div>
+          <div class="btn" :class="{selected: mbtiChoices[1]==='N'}" @click="checkBtn(1,'N')">
+            <span class="type">N</span>
+            <span>직관형</span>
+          </div>
+        </div>
+        <div class="buttonRow">
+          <div class="btn" :class="{selected: mbtiChoices[2]==='T'}" @click="checkBtn(2,'T')">
+            <span class="type">T</span>
+            <span>사고형</span>
+          </div>
+          <div class="btn" :class="{selected: mbtiChoices[2]==='F'}" @click="checkBtn(2,'F')">
+            <span class="type">F</span>
+            <span>감정형</span>
+          </div>
+        </div>
+        <div class="buttonRow">
+          <div class="btn" :class="{selected: mbtiChoices[3]==='J'}" @click="checkBtn(3,'J')">
+            <span class="type">J</span>
+            <span>판단형</span>
+          </div>
+          <div class="btn" :class="{selected: mbtiChoices[3]==='P'}" @click="checkBtn(3,'P')">
+            <span class="type">P</span>
+            <span>인식형</span>
+          </div>
+        </div>
+      </section>
+      <button class="result" @click="goToResult">결과 보기</button>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script>
+    const app = new Vue({
+      el: '#app',
+      data: {
+        mbtiChoices: [-1, -1, -1, -1],
+        url: "https://www.16personalities.com/ko/%EC%84%B1%EA%B2%A9%EC%9C%A0%ED%98%95-"
+      },
+      methods: {
+        goToResult() {
+          for (let i = 0; i < 4; i++) {
+            if (this.mbtiChoices[i] === -1) {
+              alert("유형을 모두 선택해 주세요!")
+              return
+            }
+          }
+          window.open(this.url+this.mbtiChoices.join(""))
+        },
+        checkBtn(i, j) {
+          Vue.set(this.mbtiChoices, i, j)
+        }
+      },
+    })
+  </script>
+</body>
+
+</html>
