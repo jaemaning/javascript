@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="app">
+    <h1>Todo List</h1>
+    <input type="text" v-model="inputData">
+    <button @click="todoAdd">+</button>
+    <ul>
+      <li v-for="(todo, idx) in todoArray" :key="idx">
+        <input type="checkbox" v-model="todoArray[idx].checked" @click="thrLine(idx)">
+        <span :style="{textDecorationLine: todoArray[idx].checkedThr}">{{todo.data}}</span>
+      </li>
+    </ul>
+    <button @click="removeComplete">완료 목록 삭제</button>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script>
+    const app = new Vue({
+      el: "#app",
+      data: {
+        todoArray: [
+          {data: "예시 1번", 
+          checked: false, 
+          checkedThr: "None",
+        },
+        ],
+        inputData: "",
+        removeList: [],
+        cnt: 0
+      },
+      methods: {
+        todoAdd() {
+          if (this.inputData) {
+            // 내용 더하기
+            this.todoArray.push({data:this.inputData, checked:false, checkedThr:"None"})
+            this.inputData = ""
+          } else {
+            alert("내용을 입력해주세요.")
+          }
+        },
+        thrLine(idx) {
+          if (this.todoArray[idx].checkedThr === "line-through") {
+            Vue.set(this.todoArray[idx], 'checkedThr', "None")
+          } else {
+            Vue.set(this.todoArray[idx], 'checkedThr', "line-through")
+          }
+        },
+        removeComplete() {
+          this.todoArray.forEach((element, idx) => {
+            if (this.todoArray[idx].checked){
+              this.removeList.push(idx)
+              console.log(idx)
+              }
+            }
+          );
+          this.removeList.forEach(value=>{
+            this.todoArray.splice(value-this.cnt, 1)
+            this.cnt ++
+          })
+          this.cnt = 0
+          this.removeList = []
+        }
+      },
+    })
+  </script>
+</body>
+</html>
